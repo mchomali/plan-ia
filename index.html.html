@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Plan IA desde Casa 🚀</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: #2a2a3d;
+    --accent: #7c3aed;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e8e8f0;
+    --muted: #6b7280;
+    --card-glow: rgba(124,58,237,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .nav-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .nav-pill:hover, .nav-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* SECTIONS */
+  section {
+    min-height: 100vh;
+    padding: 100px 40px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-hidden { display: none; }
+
+  /* HERO */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 24px;
+    font-size: 0.82rem;
+    color: #a78bfa;
+    font-weight: 500;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .dot-live {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .h1-accent {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .stat-card {
+    padding: 20px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    min-width: 160px;
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .cta-btn {
+    padding: 16px 32px;
+    background: linear-gradient(135deg, var(--accent), #5b21b6);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    animation: fadeUp 0.6s 0.4s ease both;
+    box-shadow: 0 8px 32px rgba(124,58,237,0.35);
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.5);
+  }
+
+  /* TIMELINE */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    margin-bottom: 48px;
+    font-size: 1rem;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+
+  .tl-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -34px;
+    top: 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .tl-month {
+    font-size: 0.75rem;
+    color: var(--accent2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .tl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+
+  .tl-card:hover {
+    border-color: var(--accent);
+  }
+
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .tl-tasks {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tl-tasks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #c4c4d4;
+    line-height: 1.5;
+  }
+
+  .tl-tasks li::before {
+    content: '→';
+    color: var(--accent2);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .income-badge {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .income-0 { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+  .income-low { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+  .income-mid { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+  .income-high { background: rgba(6,182,212,0.15); color: #22d3ee; border: 1px solid rgba(6,182,212,0.2); }
+
+  /* TOOLS */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.25s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .tool-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px var(--card-glow);
+  }
+
+  .tool-card:hover::before { opacity: 1; }
+
+  .tool-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .tool-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .tool-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(16,185,129,0.15);
+    color: #34d399;
+    border: 1px solid rgba(16,185,129,0.2);
+  }
+
+  /* SIMULATOR */
+  .simulator {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 40px;
+  }
+
+  .sim-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sim-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .sim-control {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sim-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sim-value {
+    color: var(--accent2);
+    font-weight: 700;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--border);
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 0 4px rgba(124,58,237,0.2);
+    transition: box-shadow 0.2s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 8px rgba(124,58,237,0.2);
+  }
+
+  .sim-result {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .sim-res-item {
+    text-align: center;
+  }
+
+  .sim-res-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .sim-res-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .sim-goal {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+
+  .sim-goal.ok {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.2);
+    color: #34d399;
+  }
+
+  .sim-goal.warn {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    color: #fbbf24;
+  }
+
+  .sim-goal.fail {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    color: #f87171;
+  }
+
+  /* SCRIPT BUILDER */
+  .script-builder {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 40px;
+  }
+
+  .script-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .script-opt {
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.88rem;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+  }
+
+  .script-opt:hover, .script-opt.selected {
+    border-color: var(--accent);
+    background: rgba(124,58,237,0.1);
+    color: #a78bfa;
+  }
+
+  .script-output {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #c4c4d4;
+    min-height: 120px;
+    white-space: pre-line;
+    position: relative;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+
+  .gen-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #5b21b6);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .gen-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  /* POST SIMULATOR */
+  .post-sim {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .post-input-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-size: 0.83rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  select, input[type="text"], textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  select:focus, input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .phone-frame {
+    background: #1a1a2e;
+    border: 2px solid var(--border);
+    border-radius: 32px;
+    padding: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 80px;
+    height: 20px;
+    background: var(--bg);
+    border-radius: 10px;
+    margin: 0 auto 16px;
+  }
+
+  .ig-post {
+    background: #0a0a0f;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .ig-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .ig-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .ig-username {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .ig-image {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: 'Syne', sans-serif;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.2;
+    position: relative;
+    overflow: hidden;
+    min-height: 200px;
+  }
+
+  .ig-actions {
+    display: flex;
+    gap: 14px;
+    padding: 10px 12px 6px;
+    font-size: 1rem;
+  }
+
+  .ig-caption {
+    padding: 4px 12px 12px;
+    font-size: 0.7rem;
+    color: #c4c4d4;
+    line-height: 1.5;
+  }
+
+  .ig-caption strong {
+    color: white;
+  }
+
+  /* WEEK CHECKER */
+  .week-tracker {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 40px;
+  }
+
+  .week-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .week-tab {
+    padding: 8px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.83rem;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+  }
+
+  .week-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .task-item:hover { border-color: var(--accent); }
+
+  .task-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .task-item.done .task-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .task-item.done .task-check::after {
+    content: '✓';
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .task-item.done .task-text {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .task-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    transition: all 0.2s;
+  }
+
+  .task-tag {
+    margin-left: auto;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tag-learn { background: rgba(6,182,212,0.15); color: #22d3ee; }
+  .tag-make { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .tag-sell { background: rgba(16,185,129,0.15); color: #34d399; }
+
+  .progress-bar-wrap {
+    background: var(--bg);
+    border-radius: 8px;
+    height: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover { border-color: var(--accent); }
+
+  .faq-q {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    gap: 16px;
+  }
+
+  .faq-arrow {
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    font-size: 1.1rem;
+  }
+
+  .faq-item.open .faq-arrow { transform: rotate(90deg); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  .faq-a-inner {
+    padding: 0 24px 20px;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    section { padding: 100px 20px 60px; }
+    nav { padding: 12px 20px; }
+    .nav-pills { display: none; }
+    .sim-controls { grid-template-columns: 1fr; }
+    .sim-result { grid-template-columns: 1fr 1fr; }
+    .post-sim { grid-template-columns: 1fr; }
+    h1 { font-size: 2.2rem; }
+    .stats-row { flex-direction: column; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Gradient BG blobs */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.06;
+    pointer-events: none;
+  }
+  .blob1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+  .blob2 { width: 500px; height: 500px; background: var(--accent2); bottom: -150px; right: -150px; }
+
+  /* Chart bars */
+  .chart-wrap {
+    margin-top: 32px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    height: 160px;
+    padding-bottom: 32px;
+    position: relative;
+  }
+
+  .chart-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 32px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .chart-bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .chart-bar {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-height: 4px;
+  }
+
+  .chart-bar-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .chart-bar-val {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent2);
+    position: absolute;
+    top: -20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🚀 Tu Plan IA</div>
+  <div class="nav-pills">
+    <button class="nav-pill active" onclick="showSection('hero')">Inicio</button>
+    <button class="nav-pill" onclick="showSection('roadmap')">Hoja de Ruta</button>
+    <button class="nav-pill" onclick="showSection('tools')">Herramientas</button>
+    <button class="nav-pill" onclick="showSection('simulator')">Simulador</button>
+    <button class="nav-pill" onclick="showSection('builder')">Crear Post</button>
+    <button class="nav-pill" onclick="showSection('tracker')">Tracker</button>
+    <button class="nav-pill" onclick="showSection('faq')">FAQ</button>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <div class="hero">
+    <div class="hero-tag"><div class="dot-live"></div> Plan personalizado · Chile 🇨🇱</div>
+    <h1>Gana <span class="h1-accent">$500K CLP</span><br>desde tu casa<br>con IA gratis</h1>
+    <p class="hero-sub">Guía completa y realista para ofrecer servicios de contenido con inteligencia artificial, sin experiencia previa, con solo 1-2 horas al día.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val">$0</div>
+        <div class="stat-label">Inversión inicial</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">7-10</div>
+        <div class="stat-label">Clientes para la meta</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">7 meses</div>
+        <div class="stat-label">Tiempo estimado a la meta</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">~100%</div>
+        <div class="stat-label">Margen de ganancia</div>
+      </div>
+    </div>
+
+    <button class="cta-btn" onclick="showSection('roadmap')">Ver la Hoja de Ruta →</button>
+
+    <!-- Mini chart -->
+    <div style="width:100%; max-width:600px; margin-top: 16px;">
+      <div style="font-size:0.8rem; color:var(--muted); margin-bottom: 8px;">Proyección de ingresos mensuales (CLP)</div>
+      <div class="chart-wrap" id="mainChart">
+        <!-- bars injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ROADMAP ===================== -->
+<section id="roadmap" class="section-hidden">
+  <div class="section-title">🗺️ Hoja de Ruta</div>
+  <div class="section-sub">Tu camino mes a mes, con tareas concretas y metas de ingreso reales.</div>
+
+  <div class="timeline" id="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--red)"></div>
+      <div class="tl-month">Mes 1 — Fundamentos</div>
+      <div class="tl-card">
+        <div class="tl-title">📚 Aprender las herramientas</div>
+        <ul class="tl-tasks">
+          <li>Crear cuenta en ChatGPT (gratis) y aprender a dar prompts efectivos</li>
+          <li>Crear cuenta en Canva (gratis) y aprender plantillas de Instagram</li>
+          <li>Practicar creando 10 posts de ejemplo para negocios imaginarios</li>
+          <li>Ver 3 videos de YouTube sobre "gestión de redes sociales con IA"</li>
+          <li>Tomar capturas de tus mejores 5 posts → ese es tu portafolio inicial</li>
+        </ul>
+        <span class="income-badge income-0">💰 Ingreso: $0 — Mes de inversión</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--accent3)"></div>
+      <div class="tl-month">Mes 2 — Portafolio y primer cliente gratis</div>
+      <div class="tl-card">
+        <div class="tl-title">🎨 Construir credibilidad</div>
+        <ul class="tl-tasks">
+          <li>Crear portafolio con 3 rubros distintos (café, peluquería, tienda ropa)</li>
+          <li>Ofrecer el servicio GRATIS a 1 negocio conocido (familiar, vecino)</li>
+          <li>Gestionar ese negocio 1 mes completo: 20 posts, historias, captions</li>
+          <li>Al terminar, pedir captura de métricas y una reseña escrita</li>
+          <li>Armar tu "carpeta de presentación" en PDF con Canva</li>
+        </ul>
+        <span class="income-badge income-0">💰 Ingreso: $0 — Construyendo base</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--accent3)"></div>
+      <div class="tl-month">Mes 3 — Primeras ventas</div>
+      <div class="tl-card">
+        <div class="tl-title">💬 Contactar clientes reales</div>
+        <ul class="tl-tasks">
+          <li>Contactar 30 negocios por Instagram DM con tu guión personalizado</li>
+          <li>Ofrecer precio de lanzamiento: $40.000–$50.000 CLP/mes</li>
+          <li>Meta realista: cerrar 2-3 clientes este mes</li>
+          <li>Crear carpeta en Google Drive por cliente para entregar contenido</li>
+          <li>Entregar puntualmente, pedir retroalimentación cada semana</li>
+        </ul>
+        <span class="income-badge income-low">💰 Ingreso estimado: $80.000–$150.000</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--accent)"></div>
+      <div class="tl-month">Mes 4 — Escalar</div>
+      <div class="tl-card">
+        <div class="tl-title">📈 Crecer y mejorar precio</div>
+        <ul class="tl-tasks">
+          <li>Subir precio a nuevos clientes: $60.000–$80.000 CLP/mes</li>
+          <li>Contactar 50 negocios nuevos usando lo que aprendiste</li>
+          <li>Meta: llegar a 5-6 clientes totales</li>
+          <li>Automatizar con plantillas: reducir tiempo por cliente a 2-3 hrs/mes</li>
+          <li>Empezar a pedir referidos a clientes satisfechos</li>
+        </ul>
+        <span class="income-badge income-mid">💰 Ingreso estimado: $300.000–$400.000</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--accent2)"></div>
+      <div class="tl-month">Mes 5-6 — Consolidar</div>
+      <div class="tl-card">
+        <div class="tl-title">🏆 Estabilizar ingresos</div>
+        <ul class="tl-tasks">
+          <li>Consolidar 7-10 clientes recurrentes al mes</li>
+          <li>Precio estándar: $60.000–$80.000 por cliente</li>
+          <li>Ofrecer servicios extras: Reels con IA (+$20k), stories diarias (+$15k)</li>
+          <li>Crear proceso documentado para escalar más rápido</li>
+          <li>Considerar especializarte en un rubro (gastronomía, moda, salud)</li>
+        </ul>
+        <span class="income-badge income-high">💰 Ingreso estimado: $420.000–$600.000+</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="background: var(--green); box-shadow: 0 0 0 4px rgba(16,185,129,0.3)"></div>
+      <div class="tl-month">Mes 7+ — Meta alcanzada 🎯</div>
+      <div class="tl-card" style="border-color: rgba(16,185,129,0.3);">
+        <div class="tl-title">🎓 Universidad + Depto cubiertos</div>
+        <ul class="tl-tasks">
+          <li>10 clientes × $60.000 = $600.000/mes como base mínima</li>
+          <li>Subir precio a clientes antiguos con resultados probados</li>
+          <li>Explorar nuevos servicios: gestión de Google My Business, email marketing</li>
+          <li>Potencial de llegar a $800K-$1M con especialización</li>
+        </ul>
+        <span class="income-badge income-high">💰 Ingreso: $500.000–$1.000.000 ✅</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== TOOLS ===================== -->
+<section id="tools" class="section-hidden">
+  <div class="section-title">🛠️ Herramientas Gratuitas</div>
+  <div class="section-sub">Todo lo que necesitas está disponible de forma gratuita. Aquí está cómo usar cada una.</div>
+
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-icon">🤖</div>
+      <div class="tool-name">ChatGPT (Free)</div>
+      <div class="tool-desc">Tu asistente principal. Le pides textos, captions, hashtags, ideas de contenido, guiones para Reels. Haz esto: "Actúa como community manager y crea 5 posts para una cafetería en Santiago".</div>
+      <span class="tool-badge">✓ 100% Gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">🎨</div>
+      <div class="tool-name">Canva (Free)</div>
+      <div class="tool-desc">Diseña los posts visualmente. Tiene miles de plantillas para Instagram. Usas la plantilla, cambias colores/texto/logo del negocio. Con IA de Canva puedes generar imágenes de fondo.</div>
+      <span class="tool-badge">✓ 100% Gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">🎬</div>
+      <div class="tool-name">CapCut (Free)</div>
+      <div class="tool-desc">Para crear Reels y videos cortos con IA. Tiene subtítulos automáticos, música, efectos. Puedes crear videos de producto con solo fotos y música. Diferenciador enorme.</div>
+      <span class="tool-badge">✓ 100% Gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">🖼️</div>
+      <div class="tool-name">Adobe Firefly (Free)</div>
+      <div class="tool-desc">Genera imágenes con IA de texto. Escribe "café artesanal en Santiago, luz cálida" y te da una imagen profesional. Perfecta para negocios que no tienen fotos de calidad.</div>
+      <span class="tool-badge">✓ 25 créditos/mes gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">📊</div>
+      <div class="tool-name">Meta Business Suite</div>
+      <div class="tool-desc">Gestiona Instagram y Facebook del cliente desde tu computador. Programa publicaciones, ve métricas. Es gratis y demuestra profesionalismo al cliente.</div>
+      <span class="tool-badge">✓ 100% Gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">📁</div>
+      <div class="tool-name">Google Drive (Free)</div>
+      <div class="tool-desc">Crea una carpeta por cliente. Les compartes el contenido del mes organizado. Muy profesional: "aquí están tus 20 posts de agosto listos para publicar".</div>
+      <span class="tool-badge">✓ 15 GB gratis</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">✍️</div>
+      <div class="tool-name">Claude (Free)</div>
+      <div class="tool-desc">Para textos más largos, estrategias de contenido, responder comentarios con empatía, redactar propuestas de servicios. Complementa perfectamente a ChatGPT.</div>
+      <span class="tool-badge">✓ Versión gratis disponible</span>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-icon">🔊</div>
+      <div class="tool-name">ElevenLabs (Free)</div>
+      <div class="tool-desc">Genera voces en off para videos con IA. Si el negocio quiere Reels con narración profesional, esto es un diferenciador brutal. 10.000 caracteres/mes gratis.</div>
+      <span class="tool-badge">✓ Plan gratis disponible</span>
+    </div>
+
+  </div>
+
+  <!-- FLUJO DE TRABAJO -->
+  <div style="margin-top: 48px;">
+    <div class="section-title" style="font-size: 1.6rem;">⚙️ Tu Flujo de Trabajo por Cliente</div>
+    <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+      
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative;">
+        <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">1</div>
+        <div style="font-weight: 600; margin-bottom: 8px; margin-top: 8px;">📋 Briefing (10 min)</div>
+        <div style="font-size: 0.83rem; color: var(--muted);">Preguntas al cliente: ¿qué vendes? ¿a quién? ¿tono de marca? ¿colores?</div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative;">
+        <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">2</div>
+        <div style="font-weight: 600; margin-bottom: 8px; margin-top: 8px;">🤖 Generar textos (20 min)</div>
+        <div style="font-size: 0.83rem; color: var(--muted);">ChatGPT: "Crea 20 captions para una peluquería llamada X, tono amigable, en Santiago"</div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative;">
+        <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">3</div>
+        <div style="font-weight: 600; margin-bottom: 8px; margin-top: 8px;">🎨 Diseñar posts (40 min)</div>
+        <div style="font-size: 0.83rem; color: var(--muted);">Canva: selecciona plantilla, aplica colores de marca, añade texto generado por IA</div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative;">
+        <div style="position: absolute; top: -12px; left: 20px; background: var(--accent); color: white; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem;">4</div>
+        <div style="font-weight: 600; margin-bottom: 8px; margin-top: 8px;">📤 Entregar (10 min)</div>
+        <div style="font-size: 0.83rem; color: var(--muted);">Subir todo a carpeta de Drive del cliente, con calendario de publicación incluido</div>
+      </div>
+
+    </div>
+    <div style="margin-top: 16px; padding: 14px 20px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; font-size: 0.88rem; color: #34d399;">
+      ⏱️ <strong>Tiempo total por cliente al mes:</strong> ~80-90 minutos. Con 7 clientes = ~10 horas/mes = $500K
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SIMULATOR ===================== -->
+<section id="simulator" class="section-hidden">
+  <div class="section-title">📊 Simulador de Ingresos</div>
+  <div class="section-sub">Mueve los controles y ve en tiempo real cuánto ganarías cada mes.</div>
+
+  <div class="simulator">
+    <div class="sim-title">
+      <span>💸</span> Calculadora de Ingresos Mensuales
+    </div>
+
+    <div class="sim-controls">
+      <div class="sim-control">
+        <div class="sim-label">
+          Número de clientes
+          <span class="sim-value" id="clientsVal">5</span>
+        </div>
+        <input type="range" min="1" max="20" value="5" id="clients" oninput="updateSim()">
+      </div>
+      <div class="sim-control">
+        <div class="sim-label">
+          Precio por cliente (CLP)
+          <span class="sim-value" id="priceVal">$60.000</span>
+        </div>
+        <input type="range" min="30000" max="150000" step="5000" value="60000" id="price" oninput="updateSim()">
+      </div>
+      <div class="sim-control">
+        <div class="sim-label">
+          Extras por cliente (Reels, etc.)
+          <span class="sim-value" id="extrasVal">$0</span>
+        </div>
+        <input type="range" min="0" max="50000" step="5000" value="0" id="extras" oninput="updateSim()">
+      </div>
+      <div class="sim-control">
+        <div class="sim-label">
+          % de clientes con extras
+          <span class="sim-value" id="extrasPercVal">30%</span>
+        </div>
+        <input type="range" min="0" max="100" step="10" value="30" id="extrasPerc" oninput="updateSim()">
+      </div>
+    </div>
+
+    <div class="sim-result">
+      <div class="sim-res-item">
+        <div class="sim-res-val" id="res-base" style="color: var(--accent)">$300.000</div>
+        <div class="sim-res-label">Ingreso base</div>
+      </div>
+      <div class="sim-res-item">
+        <div class="sim-res-val" id="res-extras" style="color: var(--accent3)">$0</div>
+        <div class="sim-res-label">Extras / Upsells</div>
+      </div>
+      <div class="sim-res-item">
+        <div class="sim-res-val" id="res-total" style="color: var(--green)">$300.000</div>
+        <div class="sim-res-label">Total mensual</div>
+      </div>
+    </div>
+
+    <div class="sim-goal" id="simGoal">
+      <span id="simGoalIcon">🎯</span>
+      <span id="simGoalText">Configura los sliders para ver tu proyección</span>
+    </div>
+
+    <!-- Hours needed -->
+    <div style="margin-top: 20px; padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; font-size: 0.88rem; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: gap; align-items: center;">
+      <span>⏱️ Horas estimadas al mes: <strong id="hoursNeeded" style="color: var(--text)">7.5 hrs</strong></span>
+      <span>📅 Horas al día necesarias: <strong id="hoursPerDay" style="color: var(--text)">0.25 hrs</strong></span>
+    </div>
+  </div>
+
+  <!-- PRICE GUIDE -->
+  <div style="margin-top: 40px;">
+    <div class="section-title" style="font-size: 1.5rem;">💰 Guía de Precios por Servicio</div>
+    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 12px;">
+      
+      <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;">
+        <span style="font-size: 1.3rem;">📸</span>
+        <div style="flex: 1;">
+          <div style="font-weight: 600; font-size: 0.92rem;">Pack básico: 12 posts/mes</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">Diseño + caption + hashtags. Ideal para empezar.</div>
+        </div>
+        <div style="font-family: 'Syne', sans-serif; font-weight: 700; color: var(--accent2);">$35k–$50k</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;">
+        <span style="font-size: 1.3rem;">🌟</span>
+        <div style="flex: 1;">
+          <div style="font-weight: 600; font-size: 0.92rem;">Pack estándar: 20 posts + 10 historias/mes</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">Lo más vendido. Contenido completo para Instagram.</div>
+        </div>
+        <div style="font-family: 'Syne', sans-serif; font-weight: 700; color: var(--accent2);">$60k–$80k</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;">
+        <span style="font-size: 1.3rem;">🎬</span>
+        <div style="flex: 1;">
+          <div style="font-weight: 600; font-size: 0.92rem;">Add-on: 4 Reels con IA al mes</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">Video corto con CapCut + narración + subtítulos. Alto valor percibido.</div>
+        </div>
+        <div style="font-family: 'Syne', sans-serif; font-weight: 700; color: var(--accent3);">+$25k–$40k</div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;">
+        <span style="font-size: 1.3rem;">💼</span>
+        <div style="flex: 1;">
+          <div style="font-weight: 600; font-size: 0.92rem;">Pack premium: Todo incluido</div>
+          <div style="font-size: 0.8rem; color: var(--muted);">Posts + historias + Reels + respuesta a comentarios + reporte mensual.</div>
+        </div>
+        <div style="font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green);">$120k–$150k</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BUILDER ===================== -->
+<section id="builder" class="section-hidden">
+  <div class="section-title">✍️ Generador de Post + Script</div>
+  <div class="section-sub">Simulación de cómo funciona tu servicio. Genera un post y el mensaje de venta para un cliente.</div>
+
+  <!-- SCRIPT BUILDER -->
+  <div class="script-builder">
+    <div class="sim-title"><span>💬</span> Generador de Mensaje de Prospección</div>
+    <div style="margin-bottom: 16px; font-size: 0.85rem; color: var(--muted);">¿Para qué tipo de negocio vas a escribir?</div>
+    
+    <div class="script-options">
+      <div class="script-opt selected" onclick="selectRubro(this, 'peluquería')">✂️ Peluquería</div>
+      <div class="script-opt" onclick="selectRubro(this, 'restaurante')">🍽️ Restaurante</div>
+      <div class="script-opt" onclick="selectRubro(this, 'tienda de ropa')">👗 Tienda de Ropa</div>
+      <div class="script-opt" onclick="selectRubro(this, 'gym o fitness')">💪 Gym / Fitness</div>
+      <div class="script-opt" onclick="selectRubro(this, 'veterinaria')">🐾 Veterinaria</div>
+      <div class="script-opt" onclick="selectRubro(this, 'cafetería')">☕ Cafetería</div>
+    </div>
+
+    <button class="gen-btn" onclick="generateScript()">⚡ Generar mensaje de prospección</button>
+
+    <div style="position: relative; margin-top: 16px;">
+      <div class="script-output" id="scriptOutput">Selecciona un rubro y haz clic en "Generar mensaje" para ver el guión que deberías enviar por Instagram DM a ese tipo de negocio.</div>
+      <button class="copy-btn" onclick="copyScript()">📋 Copiar</button>
+    </div>
+  </div>
+
+  <!-- POST SIMULATOR -->
+  <div style="margin-top: 48px;">
+    <div class="section-title" style="font-size: 1.5rem;">📱 Simulador de Post de Instagram</div>
+    <div style="color: var(--muted); font-size: 0.9rem; margin-bottom: 24px;">Así es como se ve un post que crearías para un cliente.</div>
+
+    <div class="post-sim">
+      <div class="post-input-side">
+        <div class="form-group">
+          <label>Nombre del negocio</label>
+          <input type="text" id="bizName" value="Peluquería Estilo" oninput="updatePost()">
+        </div>
+        <div class="form-group">
+          <label>Rubro</label>
+          <select id="bizType" onchange="updatePost()">
+            <option value="peluqueria">✂️ Peluquería</option>
+            <option value="cafe">☕ Cafetería</option>
+            <option value="gym">💪 Gym</option>
+            <option value="ropa">👗 Tienda de Ropa</option>
+            <option value="restau">🍽️ Restaurante</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensaje del post</label>
+          <textarea id="postMsg" oninput="updatePost()">¿Lista para un cambio de look? 🌟 Esta semana tenemos promo especial en coloración. ¡Agenda tu hora ahora!</textarea>
+        </div>
+        <div class="form-group">
+          <label>Color de fondo</label>
+          <select id="bgColor" onchange="updatePost()">
+            <option value="linear-gradient(135deg, #667eea, #764ba2)">💜 Violeta degradado</option>
+            <option value="linear-gradient(135deg, #f093fb, #f5576c)">💗 Rosa</option>
+            <option value="linear-gradient(135deg, #4facfe, #00f2fe)">💙 Azul</option>
+            <option value="linear-gradient(135deg, #43e97b, #38f9d7)">💚 Verde</option>
+            <option value="linear-gradient(135deg, #fa709a, #fee140)">🔥 Naranja</option>
+            <option value="linear-gradient(135deg, #0f0c29, #302b63, #24243e)">🌌 Oscuro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Emoji del post</label>
+          <select id="postEmoji" onchange="updatePost()">
+            <option>✂️</option><option>🌟</option><option>💪</option>
+            <option>☕</option><option>🍽️</option><option>👗</option>
+            <option>🐾</option><option>🔥</option><option>✨</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="ig-post">
+            <div class="ig-header">
+              <div class="ig-avatar" id="igAvatar">PE</div>
+              <div>
+                <div class="ig-username" id="igUsername">peluqueria.estilo</div>
+                <div style="font-size: 0.65rem; color: var(--muted);">Santiago, Chile</div>
+              </div>
+            </div>
+            <div class="ig-image" id="igImage" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+              <div>
+                <div id="igEmoji" style="font-size: 3rem; margin-bottom: 8px;">✂️</div>
+                <div id="igTitle" style="font-size: 1.1rem; line-height: 1.3;">¿Lista para un<br>cambio de look?</div>
+              </div>
+            </div>
+            <div class="ig-actions">❤️ 💬 📤</div>
+            <div class="ig-caption">
+              <strong id="igCaptionUser">peluqueria.estilo</strong>
+              <span id="igCaption"> ¿Lista para un cambio de look? 🌟 Esta semana tenemos promo especial en coloración. ¡Agenda tu hora ahora! #peluquería #Santiago #cabello</span>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 16px; font-size: 0.78rem; color: var(--muted);">Vista previa en tiempo real</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRACKER ===================== -->
+<section id="tracker" class="section-hidden">
+  <div class="section-title">✅ Tracker Semanal</div>
+  <div class="section-sub">Marca tus tareas de cada semana. Tu progreso se guarda automáticamente.</div>
+
+  <div class="week-tracker">
+    <div class="week-tabs">
+      <button class="week-tab active" onclick="showWeek(1, this)">Semana 1</button>
+      <button class="week-tab" onclick="showWeek(2, this)">Semana 2</button>
+      <button class="week-tab" onclick="showWeek(3, this)">Semana 3</button>
+      <button class="week-tab" onclick="showWeek(4, this)">Semana 4</button>
+      <button class="week-tab" onclick="showWeek(5, this)">Mes 2</button>
+      <button class="week-tab" onclick="showWeek(6, this)">Mes 3+</button>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <div style="font-size: 0.82rem; color: var(--muted)" id="progressLabel">0 de 0 tareas completadas</div>
+      <div style="font-size: 0.82rem; color: var(--accent2)" id="progressPerc">0%</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <div class="task-list" id="taskList"></div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="section-hidden">
+  <div class="section-title">❓ Preguntas Frecuentes</div>
+  <div class="section-sub">Las dudas más comunes respondidas con honestidad.</div>
+
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Necesito saber diseño para hacer esto? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">No. Canva tiene miles de plantillas listas. Tú solo cambias el texto, los colores del negocio y el logo. En 30 minutos de práctica ya sabrás manejarlo. El 90% del "diseño" lo hace la plantilla; tú pones el contenido que genera la IA.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Qué pasa si el cliente no queda conforme? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Es normal al principio. Ofrece siempre 1 ronda de revisiones gratuita. Si no les gusta el tono, vuelves a ChatGPT con más contexto y regeneras. Con el tiempo aprenderás exactamente qué pedirle a la IA para que el resultado sea perfecto al primer intento.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Puedo hacer esto siendo menor de edad en Chile? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Sí. Para empezar solo necesitas acordar el pago con el cliente (efectivo, transferencia). Si quisieras emitir boleta formal, necesitarías mayor de 18 o un adulto como representante. Al principio puedes operar de forma informal con acuerdos directos.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿No es deshonesto usar IA sin decirle al cliente? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">No. Igual que un plomero usa herramientas eléctricas, tú usas herramientas de IA. Lo que el cliente paga es el resultado: contenido de calidad publicado a tiempo. Si te preguntan directamente, puedes decir "uso herramientas de IA para optimizar el proceso". Cada vez más agencias lo hacen abiertamente.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Cuánto tiempo en serio me tomará llegar a $500K? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Con disciplina real: 5-7 meses. Sin disciplina: nunca. El mayor riesgo no es la competencia ni la IA, es abandonar en el mes 2 cuando todavía no ganas nada. Si logras pasar los primeros 3 meses, las probabilidades de éxito son muy altas porque el modelo de negocio es sólido.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Y si ChatGPT no me da buenos textos? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">El secreto está en el prompt. En vez de "escribe un post para una peluquería", escribe: "Eres un experto community manager. Escribe 5 captions en español para Instagram de una peluquería llamada [nombre], en Santiago, que atiende mujeres de 25-45 años, con tono amigable y motivacional. Incluye emojis y 8 hashtags relevantes en Chile." La calidad del output depende directamente de la calidad del prompt.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        ¿Puedo hacer otros servicios además de redes sociales? <span class="faq-arrow">›</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Sí, y es recomendable expandir cuando tengas base. Opciones con IA: crear logos con Canva AI, generar textos para sitios web, hacer presentaciones, redactar correos de marketing, crear menús digitales, generar descripciones de productos para e-commerce, etc. Cada uno es un ingreso extra que puedes cobrar sin casi trabajo adicional.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MOTIVATIONAL FOOTER -->
+  <div style="margin-top: 60px; padding: 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 24px; text-align: center;">
+    <div style="font-size: 2.5rem; margin-bottom: 16px;">🚀</div>
+    <div style="font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 12px;">El mejor momento para empezar es hoy</div>
+    <div style="color: var(--muted); max-width: 480px; margin: 0 auto 24px; line-height: 1.7; font-size: 0.95rem;">No necesitas ser perfecto. No necesitas saberlo todo. Necesitas crear un cuenta en ChatGPT y Canva hoy, y hacer tu primer post de prueba. Eso es todo el paso 1.</div>
+    <button class="cta-btn" onclick="showSection('tracker')">📋 Ir al Tracker → Semana 1</button>
+  </div>
+</section>
+
+
+<script>
+// ===================== NAVIGATION =====================
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.add('section-hidden'));
+  document.getElementById(id).classList.remove('section-hidden');
+  document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+  const pills = document.querySelectorAll('.nav-pill');
+  const map = {'hero':0,'roadmap':1,'tools':2,'simulator':3,'builder':4,'tracker':5,'faq':6};
+  if (map[id] !== undefined) pills[map[id]].classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (id === 'hero') initChart();
+  if (id === 'roadmap') initTimeline();
+}
+
+// ===================== CHART =====================
+function initChart() {
+  const chart = document.getElementById('mainChart');
+  if (!chart) return;
+  const data = [
+    {label:'Mes 1', val: 0, color:'#ef4444'},
+    {label:'Mes 2', val: 0, color:'#f59e0b'},
+    {label:'Mes 3', val: 100000, color:'#f59e0b'},
+    {label:'Mes 4', val: 250000, color:'#7c3aed'},
+    {label:'Mes 5', val: 380000, color:'#7c3aed'},
+    {label:'Mes 6', val: 480000, color:'#06b6d4'},
+    {label:'Mes 7', val: 600000, color:'#10b981'},
+  ];
+  const max = 700000;
+  chart.innerHTML = data.map(d => `
+    <div class="chart-bar-wrap">
+      <div style="position:relative;width:100%;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;">
+        <div style="font-size:0.65rem;color:${d.color};font-weight:700;margin-bottom:4px;">${d.val > 0 ? '$'+Math.round(d.val/1000)+'k' : '-'}</div>
+        <div class="chart-bar" style="background:${d.color};height:0%" data-target="${Math.round(d.val/max*100)}"></div>
+      </div>
+      <div class="chart-bar-label">${d.label}</div>
+    </div>
+  `).join('');
+  
+  setTimeout(() => {
+    document.querySelectorAll('.chart-bar').forEach(bar => {
+      bar.style.height = bar.dataset.target + '%';
+    });
+  }, 300);
+}
+
+// ===================== TIMELINE =====================
+function initTimeline() {
+  const items = document.querySelectorAll('.tl-item');
+  items.forEach((item, i) => {
+    setTimeout(() => item.classList.add('visible'), i * 150);
+  });
+}
+
+// ===================== SIMULATOR =====================
+function fmt(n) {
+  return '$' + n.toLocaleString('es-CL');
+}
+
+function updateSim() {
+  const clients = +document.getElementById('clients').value;
+  const price = +document.getElementById('price').value;
+  const extras = +document.getElementById('extras').value;
+  const extrasPerc = +document.getElementById('extrasPerc').value / 100;
+
+  document.getElementById('clientsVal').textContent = clients;
+  document.getElementById('priceVal').textContent = fmt(price);
+  document.getElementById('extrasVal').textContent = fmt(extras);
+  document.getElementById('extrasPercVal').textContent = Math.round(extrasPerc*100) + '%';
+
+  const base = clients * price;
+  const extrasTotal = Math.round(clients * extrasPerc) * extras;
+  const total = base + extrasTotal;
+
+  document.getElementById('res-base').textContent = fmt(base);
+  document.getElementById('res-extras').textContent = fmt(extrasTotal);
+  document.getElementById('res-total').textContent = fmt(total);
+
+  const goal = document.getElementById('simGoal');
+  const goalText = document.getElementById('simGoalText');
+  const goalIcon = document.getElementById('simGoalIcon');
+
+  if (total >= 500000) {
+    goal.className = 'sim-goal ok';
+    goalIcon.textContent = '🎯';
+    goalText.textContent = `¡Meta alcanzada! Con ${clients} clientes a ${fmt(price)} ya superas el objetivo de $500.000/mes. ¡Excelente!`;
+  } else if (total >= 300000) {
+    goal.className = 'sim-goal warn';
+    goalIcon.textContent = '📈';
+    const diff = 500000 - total;
+    goalText.textContent = `Cerca de la meta. Te faltan ${fmt(diff)} para llegar a $500.000. Sube el precio o agrega ${Math.ceil(diff/price)} cliente(s) más.`;
+  } else {
+    goal.className = 'sim-goal fail';
+    goalIcon.textContent = '💪';
+    goalText.textContent = `Aún en construcción. Necesitas más clientes o un precio mayor para alcanzar los $500.000 mensuales.`;
+  }
+
+  const hours = clients * 1.5;
+  document.getElementById('hoursNeeded').textContent = hours + ' hrs/mes';
+  document.getElementById('hoursPerDay').textContent = (hours/30).toFixed(1) + ' hrs/día';
+}
+
+// ===================== SCRIPT GENERATOR =====================
+let selectedRubro = 'peluquería';
+
+function selectRubro(el, rubro) {
+  document.querySelectorAll('.script-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRubro = rubro;
+}
+
+const scripts = {
+  'peluquería': `Hola! Vi tu peluquería en Instagram y me encantó 🌟
+
+Soy community manager y trabajo con IA para crear contenido profesional para redes sociales. Estoy buscando nuevos negocios locales para colaborar.
+
+Te puedo ofrecer:
+✅ 20 posts diseñados al mes
+✅ Captions escritos con IA en el tono de tu negocio
+✅ Hashtags optimizados para Santiago
+✅ Calendario de publicación
+
+Todo esto por $50.000/mes (precio de lanzamiento).
+
+¿Te muestro algunos ejemplos de mi trabajo? No hay compromiso 😊`,
+  'restaurante': `Hola! Vi tu restaurante en Instagram y me parece que tiene mucho potencial 🍽️
+
+Trabajo creando contenido para restaurantes y cafeterías con inteligencia artificial. El contenido bien hecho puede aumentar bastante las reservas y seguidores.
+
+¿Sabías que los restaurantes que publican 4-5 veces a la semana tienen un 70% más de engagement?
+
+Te puedo armar:
+✅ 20 posts mensuales (fotos de platos, promociones, historias del lugar)
+✅ Textos atractivos escritos con IA
+✅ Hashtags gastronómicos para Chile
+
+Precio: $60.000/mes. Primer mes con garantía de satisfacción.
+
+¿Quieres que te mande algunos ejemplos? 🙌`,
+  'tienda de ropa': `Hola! 👗 Vi tu tienda y me encanta el estilo que manejan.
+
+Soy especialista en contenido para moda y lifestyle con IA. Creo posts que generan ventas reales en Instagram.
+
+Lo que haría por tu tienda:
+✅ 20 posts visuales profesionales al mes
+✅ Textos que generan urgencia de compra
+✅ Historias y captions en tendencia
+✅ Hashtags de moda para Chile
+
+Valor: $60.000/mes.
+
+¿Tienes 5 minutos para que te muestre ejemplos de mi portafolio? Sin compromiso 😊`,
+  'gym o fitness': `Hola! 💪 Vi tu gym en Instagram y quiero proponerte algo.
+
+Trabajo haciendo contenido para centros de fitness con IA. El nicho fitness tiene uno de los mejores engagement en Instagram cuando el contenido es el correcto.
+
+Lo que puedo hacer por ti:
+✅ 20 posts motivacionales al mes
+✅ Tips de entrenamiento y nutrición (generados con IA)
+✅ Promociones y challenges
+✅ Formato Reel disponible como add-on
+
+Todo por $55.000/mes.
+
+¿Te interesa ver ejemplos? Son resultado reales de negocios similares 🔥`,
+  'veterinaria': `Hola! 🐾 Vi tu veterinaria en Instagram, ¡qué lindas fotos!
+
+Soy community manager y me especializo en negocios de mascotas y salud animal. Creo contenido con IA que engancha a los dueños de mascotas.
+
+Para tu vet puedo crear:
+✅ Posts con tips de salud y cuidado de mascotas
+✅ Promociones de servicios
+✅ Contenido emotivo que genera compartidos
+✅ 20 posts al mes + hashtags
+
+Precio: $50.000/mes con revisión incluida.
+
+¿Quieres que te mande ejemplos? 🐶🐱`,
+  'cafetería': `Hola! ☕ Tu cafetería se ve increíble en Instagram.
+
+Trabajo creando contenido para cafeterías y locales gastronómicos con IA. Un buen feed de Instagram puede llenar mesas 😊
+
+Lo que incluyo:
+✅ 20 posts mensuales (bebidas, ambiente, promociones)
+✅ Textos cálidos y atractivos con IA
+✅ Hashtags para cafeterías en Chile
+✅ Calendario de publicación organizado
+
+Valor: $50.000/mes.
+
+¿Puedo mostrarte mi portafolio? 🙌`
+};
+
+function generateScript() {
+  const output = document.getElementById('scriptOutput');
+  output.style.opacity = '0';
+  output.style.transform = 'translateY(10px)';
+  setTimeout(() => {
+    output.textContent = scripts[selectedRubro] || scripts['peluquería'];
+    output.style.opacity = '1';
+    output.style.transform = 'translateY(0)';
+    output.style.transition = 'all 0.3s ease';
+  }, 300);
+}
+
+function copyScript() {
+  const text = document.getElementById('scriptOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+  });
+}
+
+// ===================== POST PREVIEW =====================
+function updatePost() {
+  const name = document.getElementById('bizName').value || 'Mi Negocio';
+  const msg = document.getElementById('postMsg').value || '';
+  const bg = document.getElementById('bgColor').value;
+  const emoji = document.getElementById('postEmoji').value;
+  const type = document.getElementById('bizType').value;
+
+  const slug = name.toLowerCase().replace(/\s+/g,'.');
+  document.getElementById('igUsername').textContent = slug;
+  document.getElementById('igCaptionUser').textContent = slug;
+  document.getElementById('igAvatar').textContent = name.substring(0,2).toUpperCase();
+  document.getElementById('igImage').style.background = bg;
+  document.getElementById('igEmoji').textContent = emoji;
+  
+  const words = msg.split(' ').slice(0, 8).join(' ');
+  document.getElementById('igTitle').innerHTML = words + '...';
+  
+  const hashtags = {
+    peluqueria: '#peluquería #Santiago #cabello #hairsalon',
+    cafe: '#cafetería #café #Santiago #coffeelover',
+    gym: '#fitness #gym #Santiago #entrenamiento',
+    ropa: '#moda #ropa #Santiago #fashion',
+    restau: '#gastronomia #Santiago #restaurant #comida'
+  };
+  
+  document.getElementById('igCaption').textContent = ' ' + msg + ' ' + (hashtags[type] || '#negocio #Santiago');
+  document.getElementById('igCaptionUser').textContent = slug;
+}
+
+// ===================== TRACKER =====================
+const weekTasks = {
+  1: [
+    {text: 'Crear cuenta en ChatGPT (chat.openai.com)', tag: 'learn'},
+    {text: 'Crear cuenta en Canva (canva.com)', tag: 'learn'},
+    {text: 'Pedir a ChatGPT: "Crea 5 posts para una cafetería en Santiago" y copiar los textos', tag: 'learn'},
+    {text: 'Diseñar esos 5 posts en Canva usando plantillas de Instagram', tag: 'make'},
+    {text: 'Guardar los posts como PNG y organizarlos en una carpeta', tag: 'make'},
+  ],
+  2: [
+    {text: 'Crear portafolio para 3 rubros distintos (peluquería, restaurante, tienda)', tag: 'make'},
+    {text: 'Generar 8 posts por rubro = 24 posts en total usando ChatGPT + Canva', tag: 'make'},
+    {text: 'Ver 2 videos en YouTube sobre "community manager con IA Chile"', tag: 'learn'},
+    {text: 'Crear carpeta "Portafolio" con subcarpetas por rubro', tag: 'make'},
+    {text: 'Subir tu portafolio a Google Drive y tomar el link compartible', tag: 'make'},
+  ],
+  3: [
+    {text: 'Identificar 1 negocio conocido (familiar, vecino) y ofrecerles el servicio GRATIS', tag: 'sell'},
+    {text: 'Hacer briefing: preguntar colores, logo, qué venden, tono de voz', tag: 'sell'},
+    {text: 'Crear el contenido del mes para ese cliente (20 posts)', tag: 'make'},
+    {text: 'Entregarlo organizado en Drive con calendario de publicación', tag: 'sell'},
+    {text: 'Al final del mes, pedir captura de métricas y reseña escrita', tag: 'sell'},
+  ],
+  4: [
+    {text: 'Buscar 30 negocios locales en Instagram con pocas publicaciones', tag: 'sell'},
+    {text: 'Enviar mensaje de prospección (usa el generador de la sección Builder)', tag: 'sell'},
+    {text: 'Preparar respuesta a las objeciones más comunes (precio, tiempo, etc.)', tag: 'learn'},
+    {text: 'Cerrar al menos 1 cliente de pago este mes', tag: 'sell'},
+    {text: 'Crear contrato simple en PDF con ChatGPT: servicios, precio, forma de pago', tag: 'make'},
+  ],
+  5: [
+    {text: 'Consolidar a los clientes actuales: entregar puntual y con calidad', tag: 'make'},
+    {text: 'Pedir referidos a clientes satisfechos ("¿Conoces otro negocio que necesite esto?")', tag: 'sell'},
+    {text: 'Crear plantillas reutilizables en Canva por rubro para ahorrar tiempo', tag: 'make'},
+    {text: 'Subir precio a $60.000 para nuevos clientes', tag: 'sell'},
+    {text: 'Aprender a usar CapCut para ofrecer Reels como servicio extra', tag: 'learn'},
+  ],
+  6: [
+    {text: 'Llegar a 7+ clientes activos este mes', tag: 'sell'},
+    {text: 'Ofrecer "Pack Premium" a 2-3 clientes actuales con Reels incluidos', tag: 'sell'},
+    {text: 'Documentar tu proceso: cuánto tiempo tarda cada tarea', tag: 'make'},
+    {text: 'Calcular tu ingreso mensual real vs. meta de $500.000', tag: 'learn'},
+    {text: 'Celebrar — llevas meses construyendo algo real desde cero 🎉', tag: 'sell'},
+  ]
+};
+
+let currentWeek = 1;
+let doneTasks = JSON.parse(localStorage.getItem('doneTasks') || '{}');
+
+function showWeek(week, el) {
+  currentWeek = week;
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderTasks();
+}
+
+function renderTasks() {
+  const list = document.getElementById('taskList');
+  const tasks = weekTasks[currentWeek] || [];
+  const key = 'w' + currentWeek;
+  if (!doneTasks[key]) doneTasks[key] = [];
+
+  list.innerHTML = tasks.map((t, i) => {
+    const done = doneTasks[key].includes(i);
+    const tagClass = {learn:'tag-learn', make:'tag-make', sell:'tag-sell'}[t.tag];
+    const tagLabel = {learn:'Aprender', make:'Crear', sell:'Vender'}[t.tag];
+    return `<div class="task-item ${done ? 'done' : ''}" onclick="toggleTask(${i})">
+      <div class="task-check"></div>
+      <div class="task-text">${t.text}</div>
+      <span class="task-tag ${tagClass}">${tagLabel}</span>
+    </div>`;
+  }).join('');
+
+  const done = (doneTasks[key] || []).length;
+  const total = tasks.length;
+  const perc = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('progressLabel').textContent = `${done} de ${total} tareas completadas`;
+  document.getElementById('progressPerc').textContent = perc + '%';
+  document.getElementById('progressBar').style.width = perc + '%';
+}
+
+function toggleTask(i) {
+  const key = 'w' + currentWeek;
+  if (!doneTasks[key]) doneTasks[key] = [];
+  const idx = doneTasks[key].indexOf(i);
+  if (idx === -1) doneTasks[key].push(i);
+  else doneTasks[key].splice(idx, 1);
+  localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
+  renderTasks();
+}
+
+// ===================== FAQ =====================
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded', () => {
+  initChart();
+  updateSim();
+  generateScript();
+  updatePost();
+  renderTasks();
+});
+</script>
+</body>
+</html>
